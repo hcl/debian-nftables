@@ -1,0 +1,17 @@
+---
+- name: Install nftables configuration
+  host: target
+  become: yes
+
+  tasks:
+      - name: Copy to remote
+        ansible.builtin.copy:
+            src: assets/nftables.conf
+            dest: /etc/nftables.conf
+            backup: yes
+
+      - name: Reload nftables
+        ansible.builtin.systemd:
+            state: restarted
+            name: nftables
+            enabled: yes
